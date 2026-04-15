@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phone Discipline Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #191919;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --dim: #666;
+    --accent: #e8ff00;
+    --red: #ff3b3b;
+    --green: #00e676;
+    --orange: #ff9800;
+    --blue: #40c4ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+
+  header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .header-left h1 span { color: var(--accent); }
+  .header-left p {
+    font-size: 11px;
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+    margin-top: 6px;
+  }
+
+  .date-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  /* Score ring */
+  .score-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .ring-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+  .ring-wrap svg {
+    transform: rotate(-90deg);
+    width: 80px;
+    height: 80px;
+  }
+  .ring-bg { fill: none; stroke: var(--border); stroke-width: 7; }
+  .ring-fill {
+    fill: none;
+    stroke-width: 7;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease, stroke 0.4s;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+  }
+  .ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+  }
+  .ring-pct {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .ring-sub {
+    font-size: 8px;
+    color: var(--dim);
+    margin-top: 2px;
+  }
+  .score-text { flex: 1; }
+  .score-verdict {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .score-detail {
+    font-size: 11px;
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+    margin-top: 6px;
+  }
+  .score-ticks {
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    margin-top: 8px;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 14px 16px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header:active { background: var(--surface2); }
+  .section-icon { font-size: 16px; }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    flex: 1;
+  }
+  .section-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    background: var(--surface2);
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  .section-items { background: var(--bg); }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .item:active { background: var(--surface2); }
+
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-size: 13px;
+  }
+  .item.checked .checkbox {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .item-text {
+    font-size: 13.5px;
+    line-height: 1.4;
+    flex: 1;
+  }
+  .item.checked .item-text {
+    color: var(--dim);
+    text-decoration: line-through;
+  }
+
+  /* Rules box */
+  .rules-box {
+    background: #1a0000;
+    border: 1px solid #3a0000;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .rules-box h3 {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--red);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .rule-line {
+    font-size: 12.5px;
+    padding: 6px 0;
+    border-bottom: 1px solid #2a0000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rule-line:last-child { border-bottom: none; }
+  .rule-dot { font-size: 10px; }
+
+  /* Benchmarks */
+  .bench-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .bench-box h3 {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .bench-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bench-week {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    width: 50px;
+    flex-shrink: 0;
+  }
+  .bench-bar-wrap { flex: 1; background: var(--border); border-radius: 4px; height: 5px; }
+  .bench-bar { height: 5px; border-radius: 4px; background: var(--accent); }
+  .bench-label { font-size: 11px; color: var(--dim); white-space: nowrap; }
+
+  /* Reset button */
+  .reset-btn {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+  .reset-btn:active { background: var(--surface2); color: var(--text); }
+
+  /* Streak bar */
+  .streak-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .streak-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .streak-title {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .streak-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .week-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    flex: 1;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    flex-direction: column;
+    gap: 2px;
+  }
+  .dot.pass { background: #1a2a00; color: var(--green); }
+  .dot.fail { background: #2a0000; color: var(--red); }
+  .dot.today { outline: 1px solid var(--accent); }
+  .dot-day { font-size: 7px; }
+
+
+  /* Screen time */
+  .screen-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .screen-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .screen-title {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .screen-sub {
+    font-size: 12px;
+    margin-top: 6px;
+    color: var(--text);
+  }
+  .screen-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    background: var(--surface2);
+    padding: 4px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .screen-input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .screen-input-group {
+    flex: 1;
+  }
+  .screen-label {
+    display: block;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .screen-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Space Mono', monospace;
+    outline: none;
+  }
+  .screen-input:focus {
+    border-color: var(--accent);
+  }
+  .screen-save {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .screen-save:active { background: var(--border); }
+  .screen-feedback {
+    min-height: 16px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 14px;
+    color: var(--dim);
+  }
+  .graph-wrap {
+    height: 160px;
+    background: linear-gradient(to top, rgba(255,255,255,0.02), transparent);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 10px 10px;
+    display: flex;
+    align-items: end;
+    gap: 8px;
+    overflow: hidden;
+  }
+  .graph-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    height: 100%;
+    gap: 8px;
+  }
+  .graph-value {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    min-height: 10px;
+  }
+  .graph-bar-wrap {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: end;
+  }
+  .graph-bar {
+    width: 100%;
+    border-radius: 8px 8px 4px 4px;
+    background: var(--blue);
+    min-height: 6px;
+    transition: height 0.25s ease;
+  }
+  .graph-bar.good { background: var(--green); }
+  .graph-bar.bad { background: var(--red); }
+  .graph-day {
+    font-size: 8px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #333;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>PHONE<br><span>DISCIPLINE</span></h1>
+    <p id="dateStr">loading...</p>
+  </div>
+  <div class="date-display" id="timeDisplay"></div>
+</header>
+
+<!-- Score widget -->
+<div class="score-widget">
+  <div class="ring-wrap">
+    <svg viewBox="0 0 80 80">
+      <circle class="ring-bg" cx="40" cy="40" r="35"/>
+      <circle class="ring-fill" id="ringFill" cx="40" cy="40" r="35"/>
+    </svg>
+    <div class="ring-label">
+      <span class="ring-pct" id="ringPct">0%</span>
+      <span class="ring-sub">done</span>
+    </div>
+  </div>
+  <div class="score-text">
+    <div class="score-verdict" id="scoreVerdict">Start checking off</div>
+    <div class="score-detail" id="scoreDetail">0 / 18 items ticked</div>
+    <div class="score-ticks" id="scoreStatus"></div>
+  </div>
+</div>
+
+<!-- Streak -->
+<div class="streak-bar">
+  <div class="streak-header">
+    <span class="streak-title">This Week</span>
+    <span class="streak-count" id="streakCount">0 day streak</span>
+  </div>
+  <div class="week-dots" id="weekDots"></div>
+</div>
+
+
+<!-- Screen time -->
+<div class="screen-card">
+  <div class="screen-head">
+    <div>
+      <div class="screen-title">Screen Time Log</div>
+      <div class="screen-sub">Enter today's total hours and minutes. No guessing.</div>
+    </div>
+    <div class="screen-badge" id="screenAvgBadge">7D avg: --</div>
+  </div>
+
+  <div class="screen-input-row">
+    <div class="screen-input-group">
+      <label class="screen-label" for="screenHours">Hours</label>
+      <input class="screen-input" id="screenHours" type="number" min="0" max="24" inputmode="numeric" placeholder="0">
+    </div>
+    <div class="screen-input-group">
+      <label class="screen-label" for="screenMinutes">Minutes</label>
+      <input class="screen-input" id="screenMinutes" type="number" min="0" max="59" inputmode="numeric" placeholder="00">
+    </div>
+    <button class="screen-save" id="screenSaveBtn">Save</button>
+  </div>
+
+  <div class="screen-feedback" id="screenFeedback">No entry saved for today.</div>
+
+  <div class="graph-wrap" id="screenGraph"></div>
+</div>
+
+
+<!-- Sections -->
+<div id="sections"></div>
+
+<!-- Rules -->
+<div class="rules-box">
+  <h3>⚠ RULES — READ THIS TWICE</h3>
+  <div class="rule-line"><span class="rule-dot">🟡</span> Miss 1–2 ticks → fine, don't make it a habit</div>
+  <div class="rule-line"><span class="rule-dot">🔴</span> Miss 3+ ticks → you're losing control</div>
+  <div class="rule-line"><span class="rule-dot">⚫</span> Miss full day → reset next day, zero excuses</div>
+  <div class="rule-line"><span class="rule-dot">🔴</span> If you don't track it, you will lie to yourself</div>
+  <div class="rule-line"><span class="rule-dot">🔴</span> Phone near you = you will fail. Not might. Will.</div>
+  <div class="rule-line"><span class="rule-dot">🔴</span> "Feeling disciplined" is not a system. It quits.</div>
+</div>
+
+<!-- Benchmarks -->
+<div class="bench-box">
+  <h3>🎯 TARGET BENCHMARKS</h3>
+  <div class="bench-row">
+    <span class="bench-week">WK 1</span>
+    <div class="bench-bar-wrap"><div class="bench-bar" style="width:20%"></div></div>
+    <span class="bench-label">awareness + 20% drop</span>
+  </div>
+  <div class="bench-row">
+    <span class="bench-week">WK 2</span>
+    <div class="bench-bar-wrap"><div class="bench-bar" style="width:55%"></div></div>
+    <span class="bench-label">under 3 hrs/day</span>
+  </div>
+  <div class="bench-row">
+    <span class="bench-week">WK 3+</span>
+    <div class="bench-bar-wrap"><div class="bench-bar" style="width:85%"></div></div>
+    <span class="bench-label">~1.5–2 hrs/day</span>
+  </div>
+</div>
+
+<button class="reset-btn" id="resetBtn">↺ Reset Today's Checklist</button>
+
+<div class="footer-note">Data saved locally · Resets at midnight</div>
+
+<script>
+const SECTIONS = [
+  {
+    icon: "🌅",
+    title: "Morning",
+    subtitle: "First 30 min",
+    items: [
+      "Phone NOT touched after waking (30 min)",
+      "Drank water + washed face",
+      "Got sunlight / moved body (walk or stretch)"
+    ]
+  },
+  {
+    icon: "📚",
+    title: "Study Blocks",
+    subtitle: "Work time",
+    items: [
+      "Phone kept in another room / drawer",
+      "No 'just checking' — not even once",
+      "Completed at least 2 focused sessions (45–90 min each)"
+    ]
+  },
+  {
+    icon: "🍽️",
+    title: "Daily Life",
+    subtitle: "Discipline",
+    items: [
+      "No phone during meals",
+      "No random scrolling when bored",
+      "Used replacement habit (reading / pushups / thinking)"
+    ]
+  },
+  {
+    icon: "📱",
+    title: "Controlled Usage",
+    subtitle: "Limits",
+    items: [
+      "Social media ≤ 45 min total",
+      "No mindless app switching",
+      "Used blocker (Stay Focused / Digital Wellbeing)"
+    ]
+  },
+  {
+    icon: "🌙",
+    title: "Night",
+    subtitle: "Wind down",
+    items: [
+      "Phone stopped 45–60 min before sleep",
+      "Phone kept away from bed",
+      "Planned next day (basic tasks)"
+    ]
+  },
+  {
+    icon: "📊",
+    title: "Weekly Check",
+    subtitle: "Non-negotiable",
+    items: [
+      "Screen time reduced vs last week",
+      "At least 5/7 days followed system",
+      "No binge day (>4–5 hrs scrolling)"
+    ]
+  }
+];
+
+const TOTAL_ITEMS = SECTIONS.reduce((s, sec) => s + sec.items.length, 0);
+const todayKey = () => 'tracker_' + new Date().toISOString().slice(0,10);
+const weekKey = 'tracker_week';
+
+const screenTimeKey = 'tracker_screen_time';
+
+function loadScreenTime() {
+  try { return JSON.parse(localStorage.getItem(screenTimeKey)) || {}; }
+  catch { return {}; }
+}
+function saveScreenTime(data) {
+  localStorage.setItem(screenTimeKey, JSON.stringify(data));
+}
+function minutesToLabel(totalMinutes) {
+  if (totalMinutes == null || Number.isNaN(totalMinutes)) return '--';
+  const hrs = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+  return `${hrs}h ${mins.toString().padStart(2,'0')}m`;
+}
+function saveTodayScreenTime() {
+  const hoursEl = document.getElementById('screenHours');
+  const minsEl = document.getElementById('screenMinutes');
+  const hours = Math.max(0, parseInt(hoursEl.value || '0', 10) || 0);
+  const mins = Math.max(0, parseInt(minsEl.value || '0', 10) || 0);
+  const normalizedMins = mins > 59 ? 59 : mins;
+  const totalMinutes = (hours * 60) + normalizedMins;
+  const data = loadScreenTime();
+  const todayStr = new Date().toISOString().slice(0,10);
+  data[todayStr] = totalMinutes;
+  saveScreenTime(data);
+  minsEl.value = normalizedMins;
+  updateScreenTimeUI();
+}
+function getLast7DaysScreenData() {
+  const data = loadScreenTime();
+  const today = new Date();
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    days.push({
+      key,
+      label: ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],
+      minutes: typeof data[key] === 'number' ? data[key] : null
+    });
+  }
+  return days;
+}
+function updateScreenTimeUI() {
+  const data = loadScreenTime();
+  const todayStr = new Date().toISOString().slice(0,10);
+  const todayMinutes = typeof data[todayStr] === 'number' ? data[todayStr] : null;
+  const hoursEl = document.getElementById('screenHours');
+  const minsEl = document.getElementById('screenMinutes');
+  const feedbackEl = document.getElementById('screenFeedback');
+  const avgBadge = document.getElementById('screenAvgBadge');
+  const graphEl = document.getElementById('screenGraph');
+
+  if (todayMinutes != null) {
+    hoursEl.value = Math.floor(todayMinutes / 60);
+    minsEl.value = todayMinutes % 60;
+  }
+
+  const last7 = getLast7DaysScreenData();
+  const values = last7.map(d => d.minutes).filter(v => v != null);
+  const avg = values.length ? Math.round(values.reduce((a,b) => a + b, 0) / values.length) : null;
+  avgBadge.textContent = `7D avg: ${avg != null ? minutesToLabel(avg) : '--'}`;
+
+  if (todayMinutes == null) {
+    feedbackEl.textContent = 'No entry saved for today.';
+    feedbackEl.style.color = 'var(--dim)';
+  } else {
+    const yesterday = last7[last7.length - 2]?.minutes;
+    let msg = `Saved: ${minutesToLabel(todayMinutes)} today.`;
+    let color = 'var(--text)';
+    if (yesterday != null) {
+      const diff = todayMinutes - yesterday;
+      if (diff < 0) {
+        msg += ` Down ${minutesToLabel(Math.abs(diff))} vs yesterday. Good.`;
+        color = 'var(--green)';
+      } else if (diff > 0) {
+        msg += ` Up ${minutesToLabel(diff)} vs yesterday. Fix it.`;
+        color = 'var(--red)';
+      } else {
+        msg += ' Same as yesterday.';
+        color = 'var(--orange)';
+      }
+    }
+    feedbackEl.textContent = msg;
+    feedbackEl.style.color = color;
+  }
+
+  const maxMinutes = Math.max(...values, 60);
+  graphEl.innerHTML = last7.map((d, idx) => {
+    const height = d.minutes != null ? Math.max(6, Math.round((d.minutes / maxMinutes) * 100)) : 6;
+    const prev = idx > 0 ? last7[idx - 1].minutes : null;
+    let barClass = 'graph-bar';
+    if (d.minutes != null && prev != null) {
+      if (d.minutes <= prev) barClass += ' good';
+      else barClass += ' bad';
+    }
+    return `
+      <div class="graph-col">
+        <div class="graph-value">${d.minutes != null ? minutesToLabel(d.minutes).replace(' ','<br>') : '--'}</div>
+        <div class="graph-bar-wrap">
+          <div class="${barClass}" style="height:${height}%"></div>
+        </div>
+        <div class="graph-day">${d.label}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(todayKey())) || {}; }
+  catch { return {}; }
+}
+function saveState(state) {
+  localStorage.setItem(todayKey(), JSON.stringify(state));
+}
+function loadWeek() {
+  try { return JSON.parse(localStorage.getItem(weekKey)) || {}; }
+  catch { return {}; }
+}
+function saveWeek(data) {
+  localStorage.setItem(weekKey, JSON.stringify(data));
+}
+
+let state = loadState();
+
+function countChecked() {
+  return Object.values(state).filter(Boolean).length;
+}
+
+function getColor(pct) {
+  if (pct >= 80) return 'var(--green)';
+  if (pct >= 50) return 'var(--orange)';
+  return 'var(--red)';
+}
+
+function getVerdict(pct, checked, total) {
+  if (pct === 0) return "Haven't started. Clock's ticking.";
+  if (pct < 30) return "Barely moving. Be real with yourself.";
+  if (pct < 50) return "Half-assing it. Not enough.";
+  if (pct < 80) return "Getting there. Don't stop now.";
+  if (pct < 100) return "Almost. Finish what you started.";
+  return "Locked in. Don't break the streak.";
+}
+
+function updateScore() {
+  const checked = countChecked();
+  const pct = Math.round((checked / TOTAL_ITEMS) * 100);
+  const color = getColor(pct);
+
+  document.getElementById('ringPct').textContent = pct + '%';
+  document.getElementById('ringPct').style.color = color;
+
+  const circumference = 220;
+  const offset = circumference - (pct / 100) * circumference;
+  const ring = document.getElementById('ringFill');
+  ring.style.strokeDashoffset = offset;
+  ring.style.stroke = color;
+
+  document.getElementById('scoreVerdict').textContent = getVerdict(pct, checked, TOTAL_ITEMS);
+  document.getElementById('scoreVerdict').style.color = color;
+  document.getElementById('scoreDetail').textContent = `${checked} / ${TOTAL_ITEMS} items ticked`;
+
+  const missed = TOTAL_ITEMS - checked;
+  let status = '';
+  if (pct >= 80) status = '✓ On track';
+  else if (missed >= 3) status = `⚠ ${missed} missed — losing control territory`;
+  else status = `${missed} missed — still recoverable`;
+  document.getElementById('scoreStatus').textContent = status;
+  document.getElementById('scoreStatus').style.color = missed >= 3 ? 'var(--red)' : 'var(--dim)';
+
+  // Save today's result to week
+  const weekData = loadWeek();
+  const todayStr = new Date().toISOString().slice(0,10);
+  weekData[todayStr] = { pct, checked };
+  saveWeek(weekData);
+
+  updateWeekDots();
+}
+
+function updateWeekDots() {
+  const weekData = loadWeek();
+  const container = document.getElementById('weekDots');
+  const today = new Date();
+  const days = ['S','M','T','W','T','F','S'];
+  const todayStr = today.toISOString().slice(0,10);
+
+  // Get Mon-Sun of current week
+  const dayOfWeek = today.getDay();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
+
+  let dots = '';
+  let streak = 0;
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dStr = d.toISOString().slice(0,10);
+    const data = weekData[dStr];
+    const isToday = dStr === todayStr;
+    const isFuture = d > today;
+    let cls = 'dot';
+    let label = '·';
+    if (!isFuture && data) {
+      cls += data.pct >= 80 ? ' pass' : ' fail';
+      label = data.pct >= 80 ? '✓' : '✗';
+      if (data.pct >= 80) streak++;
+    }
+    if (isToday) cls += ' today';
+    const dayLabel = ['Mo','Tu','We','Th','Fr','Sa','Su'][i];
+    dots += `<div class="${cls}"><span>${label}</span><span class="dot-day">${dayLabel}</span></div>`;
+  }
+  container.innerHTML = dots;
+  document.getElementById('streakCount').textContent = streak + (streak === 1 ? ' day streak' : ' day streak');
+}
+
+function renderSections() {
+  const container = document.getElementById('sections');
+  let html = '';
+  SECTIONS.forEach((sec, si) => {
+    const sectionChecked = sec.items.filter((_, ii) => state[`${si}-${ii}`]).length;
+    html += `
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">${sec.icon}</span>
+          <span class="section-title">${sec.title}</span>
+          <span class="section-count">${sectionChecked}/${sec.items.length}</span>
+        </div>
+        <div class="section-items">
+          ${sec.items.map((item, ii) => `
+            <div class="item ${state[`${si}-${ii}`] ? 'checked' : ''}" data-key="${si}-${ii}">
+              <div class="checkbox">${state[`${si}-${ii}`] ? '✓' : ''}</div>
+              <span class="item-text">${item}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.item').forEach(el => {
+    el.addEventListener('click', () => {
+      const key = el.dataset.key;
+      state[key] = !state[key];
+      saveState(state);
+      el.classList.toggle('checked', state[key]);
+      el.querySelector('.checkbox').textContent = state[key] ? '✓' : '';
+      // Update section count
+      const [si] = key.split('-').map(Number);
+      const sec = SECTIONS[si];
+      const sectionChecked = sec.items.filter((_, ii) => state[`${si}-${ii}`]).length;
+      el.closest('.section').querySelector('.section-count').textContent = `${sectionChecked}/${sec.items.length}`;
+      updateScore();
+    });
+  });
+}
+
+function updateDateTime() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('dateStr').textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('timeDisplay').innerHTML = `${h}:${m}<br><span style="font-size:9px;color:#444">LOCAL TIME</span>`;
+}
+
+document.getElementById('screenSaveBtn').addEventListener('click', saveTodayScreenTime);
+document.getElementById('screenMinutes').addEventListener('change', () => {
+  const val = parseInt(document.getElementById('screenMinutes').value || '0', 10) || 0;
+  if (val > 59) document.getElementById('screenMinutes').value = 59;
+  if (val < 0) document.getElementById('screenMinutes').value = 0;
+});
+document.getElementById('screenHours').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveTodayScreenTime();
+});
+document.getElementById('screenMinutes').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveTodayScreenTime();
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Reset today\'s checklist? This clears all ticks.')) {
+    state = {};
+    saveState(state);
+    renderSections();
+    updateScore();
+  }
+});
+
+// Init
+updateDateTime();
+setInterval(updateDateTime, 30000);
+renderSections();
+updateScore();
+updateScreenTimeUI();
+</script>
+</body>
+</html>
