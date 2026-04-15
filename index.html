@@ -464,6 +464,103 @@
     text-transform: uppercase;
   }
 
+
+  /* Day navigator */
+  .nav-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .nav-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .nav-btn:active { background: var(--border); }
+  .nav-center {
+    flex: 1;
+    text-align: center;
+  }
+  .nav-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .nav-sub {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    margin-top: 4px;
+  }
+  .nav-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .mini-btn {
+    flex: 1;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--dim);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .mini-btn:active { background: var(--surface2); color: var(--text); }
+
+  .compare-line {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    line-height: 1.5;
+  }
+
+  .history-note {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    margin-top: 8px;
+  }
+
+  /* Bottom charts */
+  .bottom-graphs {
+    margin-top: 18px;
+  }
+  .chart-title {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .chart-sub {
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
   .footer-note {
     text-align: center;
     font-family: 'Space Mono', monospace;
@@ -502,6 +599,33 @@
   </div>
 </div>
 
+<div class="screen-card">
+    <div class="screen-head">
+      <div>
+        <div class="screen-title">Screen Time History</div>
+        <div class="screen-sub">Save screen time for the selected day. Then compare it against reality.</div>
+      </div>
+      <div class="screen-badge" id="screenAvgBadge">7D avg: --</div>
+    </div>
+
+    <div class="screen-input-row">
+      <div class="screen-input-group">
+        <label class="screen-label" for="screenHours">Hours</label>
+        <input class="screen-input" id="screenHours" type="number" min="0" max="24" inputmode="numeric" placeholder="0">
+      </div>
+      <div class="screen-input-group">
+        <label class="screen-label" for="screenMinutes">Minutes</label>
+        <input class="screen-input" id="screenMinutes" type="number" min="0" max="59" inputmode="numeric" placeholder="00">
+      </div>
+      <button class="screen-save" id="screenSaveBtn">Save</button>
+    </div>
+
+    <div class="screen-feedback" id="screenFeedback">No entry saved for this day.</div>
+    <div class="chart-title">Screen time vs days</div>
+    <div class="chart-sub">Last 7 days ending on the day you are viewing.</div>
+    <div class="graph-wrap" id="screenGraph"></div>
+  </div>
+
 <!-- Streak -->
 <div class="streak-bar">
   <div class="streak-header">
@@ -512,33 +636,22 @@
 </div>
 
 
-<!-- Screen time -->
-<div class="screen-card">
-  <div class="screen-head">
-    <div>
-      <div class="screen-title">Screen Time Log</div>
-      <div class="screen-sub">Enter today's total hours and minutes. No guessing.</div>
+<!-- Day navigation -->
+<div class="nav-card">
+  <div class="nav-top">
+    <button class="nav-btn" id="prevDayBtn">‹</button>
+    <div class="nav-center">
+      <div class="nav-title" id="viewedDayTitle">Today</div>
+      <div class="nav-sub" id="viewedDaySub">Loading date...</div>
     </div>
-    <div class="screen-badge" id="screenAvgBadge">7D avg: --</div>
+    <button class="nav-btn" id="nextDayBtn">›</button>
   </div>
-
-  <div class="screen-input-row">
-    <div class="screen-input-group">
-      <label class="screen-label" for="screenHours">Hours</label>
-      <input class="screen-input" id="screenHours" type="number" min="0" max="24" inputmode="numeric" placeholder="0">
-    </div>
-    <div class="screen-input-group">
-      <label class="screen-label" for="screenMinutes">Minutes</label>
-      <input class="screen-input" id="screenMinutes" type="number" min="0" max="59" inputmode="numeric" placeholder="00">
-    </div>
-    <button class="screen-save" id="screenSaveBtn">Save</button>
+  <div class="nav-actions">
+    <button class="mini-btn" id="jumpTodayBtn">Jump to Today</button>
+    <button class="mini-btn" id="copyPrevBtn">Compare Prev Day</button>
   </div>
-
-  <div class="screen-feedback" id="screenFeedback">No entry saved for today.</div>
-
-  <div class="graph-wrap" id="screenGraph"></div>
+  <div class="compare-line" id="compareSummary">Pick a day and stop pretending memory is accurate.</div>
 </div>
-
 
 <!-- Sections -->
 <div id="sections"></div>
@@ -574,9 +687,31 @@
   </div>
 </div>
 
-<button class="reset-btn" id="resetBtn">↺ Reset Today's Checklist</button>
+
+
+
+<div class="bottom-graphs">
+<div class="screen-card">
+    <div class="screen-head">
+      <div>
+        <div class="screen-title">Tasks Done History</div>
+        <div class="screen-sub">This shows how many checklist items you actually completed each day.</div>
+      </div>
+      <div class="screen-badge" id="taskAvgBadge">7D avg: --</div>
+    </div>
+    <div class="screen-feedback" id="taskFeedback">No task history yet.</div>
+    <div class="chart-title">Tasks done vs days</div>
+    <div class="chart-sub">Last 7 days ending on the day you are viewing.</div>
+    <div class="graph-wrap" id="taskGraph"></div>
+    <div class="history-note">Green = better than previous day. Red = worse. Grey = no data.</div>
+  </div>
+</div>
+
+<button class="reset-btn" id="resetBtn">↺ Reset Viewed Day Checklist</button>
+
 
 <div class="footer-note">Data saved locally · Resets at midnight</div>
+
 
 <script>
 const SECTIONS = [
@@ -643,11 +778,47 @@ const SECTIONS = [
 ];
 
 const TOTAL_ITEMS = SECTIONS.reduce((s, sec) => s + sec.items.length, 0);
-const todayKey = () => 'tracker_' + new Date().toISOString().slice(0,10);
 const weekKey = 'tracker_week';
-
 const screenTimeKey = 'tracker_screen_time';
+let dayOffset = 0;
+let state = {};
 
+function pad(num) {
+  return String(num).padStart(2, '0');
+}
+function dateToKey(date) {
+  return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;
+}
+function keyToDate(key) {
+  const [y,m,d] = key.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function getViewedDate() {
+  const d = new Date();
+  d.setHours(12,0,0,0);
+  d.setDate(d.getDate() + dayOffset);
+  return d;
+}
+function getViewedDateKey() {
+  return dateToKey(getViewedDate());
+}
+function trackerKey(dateKey) {
+  return 'tracker_' + dateKey;
+}
+function loadStateFor(dateKey) {
+  try { return JSON.parse(localStorage.getItem(trackerKey(dateKey))) || {}; }
+  catch { return {}; }
+}
+function saveStateFor(dateKey, data) {
+  localStorage.setItem(trackerKey(dateKey), JSON.stringify(data));
+}
+function loadWeek() {
+  try { return JSON.parse(localStorage.getItem(weekKey)) || {}; }
+  catch { return {}; }
+}
+function saveWeek(data) {
+  localStorage.setItem(weekKey, JSON.stringify(data));
+}
 function loadScreenTime() {
   try { return JSON.parse(localStorage.getItem(screenTimeKey)) || {}; }
   catch { return {}; }
@@ -659,132 +830,17 @@ function minutesToLabel(totalMinutes) {
   if (totalMinutes == null || Number.isNaN(totalMinutes)) return '--';
   const hrs = Math.floor(totalMinutes / 60);
   const mins = totalMinutes % 60;
-  return `${hrs}h ${mins.toString().padStart(2,'0')}m`;
+  return `${hrs}h ${pad(mins)}m`;
 }
-function saveTodayScreenTime() {
-  const hoursEl = document.getElementById('screenHours');
-  const minsEl = document.getElementById('screenMinutes');
-  const hours = Math.max(0, parseInt(hoursEl.value || '0', 10) || 0);
-  const mins = Math.max(0, parseInt(minsEl.value || '0', 10) || 0);
-  const normalizedMins = mins > 59 ? 59 : mins;
-  const totalMinutes = (hours * 60) + normalizedMins;
-  const data = loadScreenTime();
-  const todayStr = new Date().toISOString().slice(0,10);
-  data[todayStr] = totalMinutes;
-  saveScreenTime(data);
-  minsEl.value = normalizedMins;
-  updateScreenTimeUI();
+function countChecked(dayState = state) {
+  return Object.values(dayState).filter(Boolean).length;
 }
-function getLast7DaysScreenData() {
-  const data = loadScreenTime();
-  const today = new Date();
-  const days = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const key = d.toISOString().slice(0,10);
-    days.push({
-      key,
-      label: ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],
-      minutes: typeof data[key] === 'number' ? data[key] : null
-    });
-  }
-  return days;
-}
-function updateScreenTimeUI() {
-  const data = loadScreenTime();
-  const todayStr = new Date().toISOString().slice(0,10);
-  const todayMinutes = typeof data[todayStr] === 'number' ? data[todayStr] : null;
-  const hoursEl = document.getElementById('screenHours');
-  const minsEl = document.getElementById('screenMinutes');
-  const feedbackEl = document.getElementById('screenFeedback');
-  const avgBadge = document.getElementById('screenAvgBadge');
-  const graphEl = document.getElementById('screenGraph');
-
-  if (todayMinutes != null) {
-    hoursEl.value = Math.floor(todayMinutes / 60);
-    minsEl.value = todayMinutes % 60;
-  }
-
-  const last7 = getLast7DaysScreenData();
-  const values = last7.map(d => d.minutes).filter(v => v != null);
-  const avg = values.length ? Math.round(values.reduce((a,b) => a + b, 0) / values.length) : null;
-  avgBadge.textContent = `7D avg: ${avg != null ? minutesToLabel(avg) : '--'}`;
-
-  if (todayMinutes == null) {
-    feedbackEl.textContent = 'No entry saved for today.';
-    feedbackEl.style.color = 'var(--dim)';
-  } else {
-    const yesterday = last7[last7.length - 2]?.minutes;
-    let msg = `Saved: ${minutesToLabel(todayMinutes)} today.`;
-    let color = 'var(--text)';
-    if (yesterday != null) {
-      const diff = todayMinutes - yesterday;
-      if (diff < 0) {
-        msg += ` Down ${minutesToLabel(Math.abs(diff))} vs yesterday. Good.`;
-        color = 'var(--green)';
-      } else if (diff > 0) {
-        msg += ` Up ${minutesToLabel(diff)} vs yesterday. Fix it.`;
-        color = 'var(--red)';
-      } else {
-        msg += ' Same as yesterday.';
-        color = 'var(--orange)';
-      }
-    }
-    feedbackEl.textContent = msg;
-    feedbackEl.style.color = color;
-  }
-
-  const maxMinutes = Math.max(...values, 60);
-  graphEl.innerHTML = last7.map((d, idx) => {
-    const height = d.minutes != null ? Math.max(6, Math.round((d.minutes / maxMinutes) * 100)) : 6;
-    const prev = idx > 0 ? last7[idx - 1].minutes : null;
-    let barClass = 'graph-bar';
-    if (d.minutes != null && prev != null) {
-      if (d.minutes <= prev) barClass += ' good';
-      else barClass += ' bad';
-    }
-    return `
-      <div class="graph-col">
-        <div class="graph-value">${d.minutes != null ? minutesToLabel(d.minutes).replace(' ','<br>') : '--'}</div>
-        <div class="graph-bar-wrap">
-          <div class="${barClass}" style="height:${height}%"></div>
-        </div>
-        <div class="graph-day">${d.label}</div>
-      </div>
-    `;
-  }).join('');
-}
-
-
-function loadState() {
-  try { return JSON.parse(localStorage.getItem(todayKey())) || {}; }
-  catch { return {}; }
-}
-function saveState(state) {
-  localStorage.setItem(todayKey(), JSON.stringify(state));
-}
-function loadWeek() {
-  try { return JSON.parse(localStorage.getItem(weekKey)) || {}; }
-  catch { return {}; }
-}
-function saveWeek(data) {
-  localStorage.setItem(weekKey, JSON.stringify(data));
-}
-
-let state = loadState();
-
-function countChecked() {
-  return Object.values(state).filter(Boolean).length;
-}
-
 function getColor(pct) {
   if (pct >= 80) return 'var(--green)';
   if (pct >= 50) return 'var(--orange)';
   return 'var(--red)';
 }
-
-function getVerdict(pct, checked, total) {
+function getVerdict(pct) {
   if (pct === 0) return "Haven't started. Clock's ticking.";
   if (pct < 30) return "Barely moving. Be real with yourself.";
   if (pct < 50) return "Half-assing it. Not enough.";
@@ -792,7 +848,67 @@ function getVerdict(pct, checked, total) {
   if (pct < 100) return "Almost. Finish what you started.";
   return "Locked in. Don't break the streak.";
 }
+function getDayLabel(date) {
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
+}
+function syncViewedState() {
+  state = loadStateFor(getViewedDateKey());
+}
+function saveViewedDaySnapshot() {
+  const checked = countChecked();
+  const pct = Math.round((checked / TOTAL_ITEMS) * 100);
+  const weekData = loadWeek();
+  weekData[getViewedDateKey()] = { pct, checked };
+  saveWeek(weekData);
+}
+function updateViewedDayHeader() {
+  const viewed = getViewedDate();
+  const todayKey = dateToKey(new Date());
+  const viewedKey = getViewedDateKey();
+  let title = 'Today';
+  if (viewedKey < todayKey) title = 'Past Day';
+  if (viewedKey > todayKey) title = 'Future Day';
+  document.getElementById('viewedDayTitle').textContent = title;
+  document.getElementById('viewedDaySub').textContent = getDayLabel(viewed);
+  document.getElementById('nextDayBtn').disabled = dayOffset >= 0;
+  document.getElementById('nextDayBtn').style.opacity = dayOffset >= 0 ? '0.4' : '1';
+}
+function updateCompareSummary() {
+  const viewedKey = getViewedDateKey();
+  const viewedDate = getViewedDate();
+  const prev = new Date(viewedDate);
+  prev.setDate(prev.getDate() - 1);
+  const prevKey = dateToKey(prev);
 
+  const currentChecked = countChecked(loadStateFor(viewedKey));
+  const prevChecked = countChecked(loadStateFor(prevKey));
+
+  const screenData = loadScreenTime();
+  const currentScreen = typeof screenData[viewedKey] === 'number' ? screenData[viewedKey] : null;
+  const prevScreen = typeof screenData[prevKey] === 'number' ? screenData[prevKey] : null;
+
+  let taskText = `Tasks: ${currentChecked}/${TOTAL_ITEMS}`;
+  if (Object.keys(loadStateFor(prevKey)).length) {
+    const diff = currentChecked - prevChecked;
+    taskText += diff > 0 ? ` | +${diff} vs previous day` : diff < 0 ? ` | ${diff} vs previous day` : ` | same as previous day`;
+  } else {
+    taskText += ` | no previous-day task data`;
+  }
+
+  let screenText = `Screen: ${currentScreen != null ? minutesToLabel(currentScreen) : '--'}`;
+  if (prevScreen != null && currentScreen != null) {
+    const diff = currentScreen - prevScreen;
+    screenText += diff < 0 ? ` | down ${minutesToLabel(Math.abs(diff))}` :
+      diff > 0 ? ` | up ${minutesToLabel(diff)}` :
+      ` | same as previous day`;
+  } else {
+    screenText += ` | no previous-day screen data`;
+  }
+
+  document.getElementById('compareSummary').textContent = `${taskText} · ${screenText}`;
+}
 function updateScore() {
   const checked = countChecked();
   const pct = Math.round((checked / TOTAL_ITEMS) * 100);
@@ -807,7 +923,7 @@ function updateScore() {
   ring.style.strokeDashoffset = offset;
   ring.style.stroke = color;
 
-  document.getElementById('scoreVerdict').textContent = getVerdict(pct, checked, TOTAL_ITEMS);
+  document.getElementById('scoreVerdict').textContent = getVerdict(pct);
   document.getElementById('scoreVerdict').style.color = color;
   document.getElementById('scoreDetail').textContent = `${checked} / ${TOTAL_ITEMS} items ticked`;
 
@@ -819,23 +935,17 @@ function updateScore() {
   document.getElementById('scoreStatus').textContent = status;
   document.getElementById('scoreStatus').style.color = missed >= 3 ? 'var(--red)' : 'var(--dim)';
 
-  // Save today's result to week
-  const weekData = loadWeek();
-  const todayStr = new Date().toISOString().slice(0,10);
-  weekData[todayStr] = { pct, checked };
-  saveWeek(weekData);
-
+  saveViewedDaySnapshot();
   updateWeekDots();
+  updateCompareSummary();
 }
-
 function updateWeekDots() {
   const weekData = loadWeek();
   const container = document.getElementById('weekDots');
   const today = new Date();
-  const days = ['S','M','T','W','T','F','S'];
-  const todayStr = today.toISOString().slice(0,10);
+  today.setHours(12,0,0,0);
+  const todayStr = dateToKey(today);
 
-  // Get Mon-Sun of current week
   const dayOfWeek = today.getDay();
   const monday = new Date(today);
   monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
@@ -845,7 +955,7 @@ function updateWeekDots() {
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    const dStr = d.toISOString().slice(0,10);
+    const dStr = dateToKey(d);
     const data = weekData[dStr];
     const isToday = dStr === todayStr;
     const isFuture = d > today;
@@ -861,9 +971,8 @@ function updateWeekDots() {
     dots += `<div class="${cls}"><span>${label}</span><span class="dot-day">${dayLabel}</span></div>`;
   }
   container.innerHTML = dots;
-  document.getElementById('streakCount').textContent = streak + (streak === 1 ? ' day streak' : ' day streak');
+  document.getElementById('streakCount').textContent = `${streak} day streak`;
 }
-
 function renderSections() {
   const container = document.getElementById('sections');
   let html = '';
@@ -891,59 +1000,249 @@ function renderSections() {
 
   container.querySelectorAll('.item').forEach(el => {
     el.addEventListener('click', () => {
+      if (dayOffset > 0) return;
       const key = el.dataset.key;
       state[key] = !state[key];
-      saveState(state);
+      saveStateFor(getViewedDateKey(), state);
       el.classList.toggle('checked', state[key]);
       el.querySelector('.checkbox').textContent = state[key] ? '✓' : '';
-      // Update section count
       const [si] = key.split('-').map(Number);
       const sec = SECTIONS[si];
       const sectionChecked = sec.items.filter((_, ii) => state[`${si}-${ii}`]).length;
       el.closest('.section').querySelector('.section-count').textContent = `${sectionChecked}/${sec.items.length}`;
       updateScore();
+      updateTaskGraph();
     });
   });
 }
+function get7DayRangeEndingViewed() {
+  const end = getViewedDate();
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(end);
+    d.setDate(end.getDate() - i);
+    days.push(d);
+  }
+  return days;
+}
+function updateScreenTimeUI() {
+  const data = loadScreenTime();
+  const viewedKey = getViewedDateKey();
+  const viewedMinutes = typeof data[viewedKey] === 'number' ? data[viewedKey] : null;
+  const hoursEl = document.getElementById('screenHours');
+  const minsEl = document.getElementById('screenMinutes');
+  const feedbackEl = document.getElementById('screenFeedback');
+  const avgBadge = document.getElementById('screenAvgBadge');
+  const range = get7DayRangeEndingViewed();
 
+  if (viewedMinutes != null) {
+    hoursEl.value = Math.floor(viewedMinutes / 60);
+    minsEl.value = viewedMinutes % 60;
+  } else {
+    hoursEl.value = '';
+    minsEl.value = '';
+  }
+
+  const values = range.map(d => data[dateToKey(d)]).filter(v => typeof v === 'number');
+  const avg = values.length ? Math.round(values.reduce((a,b) => a + b, 0) / values.length) : null;
+  avgBadge.textContent = `7D avg: ${avg != null ? minutesToLabel(avg) : '--'}`;
+
+  const prev = new Date(getViewedDate());
+  prev.setDate(prev.getDate() - 1);
+  const prevMinutes = typeof data[dateToKey(prev)] === 'number' ? data[dateToKey(prev)] : null;
+
+  if (viewedMinutes == null) {
+    feedbackEl.textContent = 'No entry saved for this day.';
+    feedbackEl.style.color = 'var(--dim)';
+  } else {
+    let msg = `Saved: ${minutesToLabel(viewedMinutes)}.`;
+    let color = 'var(--text)';
+    if (prevMinutes != null) {
+      const diff = viewedMinutes - prevMinutes;
+      if (diff < 0) {
+        msg += ` Down ${minutesToLabel(Math.abs(diff))} vs previous day. Good.`;
+        color = 'var(--green)';
+      } else if (diff > 0) {
+        msg += ` Up ${minutesToLabel(diff)} vs previous day. Fix it.`;
+        color = 'var(--red)';
+      } else {
+        msg += ` Same as previous day.`;
+        color = 'var(--orange)';
+      }
+    }
+    feedbackEl.textContent = msg;
+    feedbackEl.style.color = color;
+  }
+
+  updateScreenGraph();
+}
+function updateScreenGraph() {
+  const data = loadScreenTime();
+  const graphEl = document.getElementById('screenGraph');
+  const range = get7DayRangeEndingViewed();
+  const points = range.map(d => ({
+    key: dateToKey(d),
+    label: ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],
+    minutes: typeof data[dateToKey(d)] === 'number' ? data[dateToKey(d)] : null
+  }));
+  const values = points.map(d => d.minutes).filter(v => v != null);
+  const maxMinutes = Math.max(...values, 60);
+
+  graphEl.innerHTML = points.map((d, idx) => {
+    const height = d.minutes != null ? Math.max(6, Math.round((d.minutes / maxMinutes) * 100)) : 6;
+    const prev = idx > 0 ? points[idx - 1].minutes : null;
+    let barClass = 'graph-bar';
+    if (d.minutes != null && prev != null) {
+      if (d.minutes <= prev) barClass += ' good';
+      else barClass += ' bad';
+    }
+    return `
+      <div class="graph-col">
+        <div class="graph-value">${d.minutes != null ? minutesToLabel(d.minutes).replace(' ','<br>') : '--'}</div>
+        <div class="graph-bar-wrap">
+          <div class="${barClass}" style="height:${height}%"></div>
+        </div>
+        <div class="graph-day">${d.label}</div>
+      </div>
+    `;
+  }).join('');
+}
+function updateTaskGraph() {
+  const graphEl = document.getElementById('taskGraph');
+  const badgeEl = document.getElementById('taskAvgBadge');
+  const feedbackEl = document.getElementById('taskFeedback');
+  const weekData = loadWeek();
+  const range = get7DayRangeEndingViewed();
+
+  const points = range.map(d => {
+    const key = dateToKey(d);
+    const snap = weekData[key];
+    return {
+      key,
+      label: ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],
+      checked: snap && typeof snap.checked === 'number' ? snap.checked : null
+    };
+  });
+
+  const values = points.map(p => p.checked).filter(v => v != null);
+  const avg = values.length ? (values.reduce((a,b) => a+b, 0) / values.length) : null;
+  badgeEl.textContent = `7D avg: ${avg != null ? avg.toFixed(1) : '--'} / ${TOTAL_ITEMS}`;
+
+  const viewedChecked = countChecked(loadStateFor(getViewedDateKey()));
+  const prevDate = new Date(getViewedDate());
+  prevDate.setDate(prevDate.getDate() - 1);
+  const prevState = loadStateFor(dateToKey(prevDate));
+  const prevChecked = countChecked(prevState);
+
+  if (!values.length) {
+    feedbackEl.textContent = 'No task history yet.';
+    feedbackEl.style.color = 'var(--dim)';
+  } else {
+    const diff = viewedChecked - prevChecked;
+    if (Object.keys(prevState).length) {
+      feedbackEl.textContent = diff > 0
+        ? `Viewed day beat previous day by ${diff} task(s).`
+        : diff < 0
+          ? `Viewed day is down ${Math.abs(diff)} task(s) vs previous day.`
+          : `Viewed day matched previous day.`;
+      feedbackEl.style.color = diff > 0 ? 'var(--green)' : diff < 0 ? 'var(--red)' : 'var(--orange)';
+    } else {
+      feedbackEl.textContent = `Viewed day has ${viewedChecked}/${TOTAL_ITEMS} tasks done. No previous-day data.`;
+      feedbackEl.style.color = 'var(--dim)';
+    }
+  }
+
+  graphEl.innerHTML = points.map((p, idx) => {
+    const value = p.checked;
+    const height = value != null ? Math.max(6, Math.round((value / TOTAL_ITEMS) * 100)) : 6;
+    const prev = idx > 0 ? points[idx - 1].checked : null;
+    let barClass = 'graph-bar';
+    if (value != null && prev != null) {
+      if (value >= prev) barClass += ' good';
+      else barClass += ' bad';
+    }
+    return `
+      <div class="graph-col">
+        <div class="graph-value">${value != null ? `${value}/${TOTAL_ITEMS}` : '--'}</div>
+        <div class="graph-bar-wrap">
+          <div class="${barClass}" style="height:${height}%"></div>
+        </div>
+        <div class="graph-day">${p.label}</div>
+      </div>
+    `;
+  }).join('');
+}
 function updateDateTime() {
   const now = new Date();
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('dateStr').textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
-  const h = now.getHours().toString().padStart(2,'0');
-  const m = now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('dateStr').textContent = getDayLabel(now);
+  const h = pad(now.getHours());
+  const m = pad(now.getMinutes());
   document.getElementById('timeDisplay').innerHTML = `${h}:${m}<br><span style="font-size:9px;color:#444">LOCAL TIME</span>`;
 }
-
-document.getElementById('screenSaveBtn').addEventListener('click', saveTodayScreenTime);
+function refreshViewedDay() {
+  syncViewedState();
+  updateViewedDayHeader();
+  renderSections();
+  updateScore();
+  updateScreenTimeUI();
+  updateTaskGraph();
+}
+function saveViewedScreenTime() {
+  const hoursEl = document.getElementById('screenHours');
+  const minsEl = document.getElementById('screenMinutes');
+  const hours = Math.max(0, parseInt(hoursEl.value || '0', 10) || 0);
+  const mins = Math.max(0, parseInt(minsEl.value || '0', 10) || 0);
+  const normalizedMins = Math.min(59, mins);
+  const totalMinutes = (hours * 60) + normalizedMins;
+  const data = loadScreenTime();
+  data[getViewedDateKey()] = totalMinutes;
+  saveScreenTime(data);
+  minsEl.value = normalizedMins;
+  updateScreenTimeUI();
+  updateCompareSummary();
+}
+document.getElementById('screenSaveBtn').addEventListener('click', saveViewedScreenTime);
 document.getElementById('screenMinutes').addEventListener('change', () => {
   const val = parseInt(document.getElementById('screenMinutes').value || '0', 10) || 0;
   if (val > 59) document.getElementById('screenMinutes').value = 59;
   if (val < 0) document.getElementById('screenMinutes').value = 0;
 });
 document.getElementById('screenHours').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveTodayScreenTime();
+  if (e.key === 'Enter') saveViewedScreenTime();
 });
 document.getElementById('screenMinutes').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveTodayScreenTime();
+  if (e.key === 'Enter') saveViewedScreenTime();
 });
-
+document.getElementById('prevDayBtn').addEventListener('click', () => {
+  dayOffset -= 1;
+  refreshViewedDay();
+});
+document.getElementById('nextDayBtn').addEventListener('click', () => {
+  if (dayOffset < 0) {
+    dayOffset += 1;
+    refreshViewedDay();
+  }
+});
+document.getElementById('jumpTodayBtn').addEventListener('click', () => {
+  dayOffset = 0;
+  refreshViewedDay();
+});
+document.getElementById('copyPrevBtn').addEventListener('click', () => {
+  updateCompareSummary();
+});
 document.getElementById('resetBtn').addEventListener('click', () => {
-  if (confirm('Reset today\'s checklist? This clears all ticks.')) {
+  const label = getViewedDateKey() === dateToKey(new Date()) ? "today's" : `the viewed day's`;
+  if (confirm(`Reset ${label} checklist? This clears all ticks for that day.`)) {
     state = {};
-    saveState(state);
-    renderSections();
-    updateScore();
+    saveStateFor(getViewedDateKey(), state);
+    refreshViewedDay();
   }
 });
 
-// Init
 updateDateTime();
 setInterval(updateDateTime, 30000);
-renderSections();
-updateScore();
-updateScreenTimeUI();
+refreshViewedDay();
 </script>
+
 </body>
 </html>
