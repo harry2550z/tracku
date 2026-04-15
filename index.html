@@ -19,9 +19,7 @@
     --orange: #ff9800;
     --blue: #40c4ff;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -29,7 +27,6 @@
     min-height: 100vh;
     padding: 20px 16px 60px;
   }
-
   header {
     display: flex;
     align-items: flex-start;
@@ -38,13 +35,7 @@
     padding-bottom: 20px;
     border-bottom: 1px solid var(--border);
   }
-
-  .header-left h1 {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-  }
+  .header-left h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
   .header-left h1 span { color: var(--accent); }
   .header-left p {
     font-size: 11px;
@@ -52,7 +43,6 @@
     font-family: 'Space Mono', monospace;
     margin-top: 6px;
   }
-
   .date-display {
     font-family: 'Space Mono', monospace;
     font-size: 10px;
@@ -61,7 +51,6 @@
     line-height: 1.7;
   }
 
-  /* Score ring */
   .score-widget {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -72,17 +61,8 @@
     align-items: center;
     gap: 20px;
   }
-  .ring-wrap {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
-  }
-  .ring-wrap svg {
-    transform: rotate(-90deg);
-    width: 80px;
-    height: 80px;
-  }
+  .ring-wrap { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); width: 80px; height: 80px; }
   .ring-bg { fill: none; stroke: var(--border); stroke-width: 7; }
   .ring-fill {
     fill: none;
@@ -101,22 +81,10 @@
     justify-content: center;
     font-family: 'Space Mono', monospace;
   }
-  .ring-pct {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .ring-sub {
-    font-size: 8px;
-    color: var(--dim);
-    margin-top: 2px;
-  }
+  .ring-pct { font-size: 18px; font-weight: 700; line-height: 1; }
+  .ring-sub { font-size: 8px; color: var(--dim); margin-top: 2px; }
   .score-text { flex: 1; }
-  .score-verdict {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
+  .score-verdict { font-size: 15px; font-weight: 700; line-height: 1.3; }
   .score-detail {
     font-size: 11px;
     color: var(--dim);
@@ -129,7 +97,6 @@
     margin-top: 8px;
   }
 
-  /* Sections */
   .section {
     margin-bottom: 16px;
     border: 1px solid var(--border);
@@ -142,10 +109,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
     user-select: none;
   }
-  .section-header:active { background: var(--surface2); }
   .section-icon { font-size: 16px; }
   .section-title {
     font-size: 13px;
@@ -163,7 +128,6 @@
     border-radius: 20px;
   }
   .section-items { background: var(--bg); }
-
   .item {
     display: flex;
     align-items: center;
@@ -175,7 +139,6 @@
     -webkit-tap-highlight-color: transparent;
   }
   .item:active { background: var(--surface2); }
-
   .checkbox {
     width: 22px;
     height: 22px;
@@ -192,17 +155,9 @@
     background: var(--accent);
     border-color: var(--accent);
   }
-  .item-text {
-    font-size: 13.5px;
-    line-height: 1.4;
-    flex: 1;
-  }
-  .item.checked .item-text {
-    color: var(--dim);
-    text-decoration: line-through;
-  }
+  .item-text { font-size: 13.5px; line-height: 1.4; flex: 1; }
+  .item.checked .item-text { color: var(--dim); text-decoration: line-through; }
 
-  /* Rules box */
   .rules-box {
     background: #1a0000;
     border: 1px solid #3a0000;
@@ -228,7 +183,6 @@
   .rule-line:last-child { border-bottom: none; }
   .rule-dot { font-size: 10px; }
 
-  /* Benchmarks */
   .bench-box {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -253,14 +207,13 @@
     font-family: 'Space Mono', monospace;
     font-size: 10px;
     color: var(--accent);
-    width: 50px;
+    width: 60px;
     flex-shrink: 0;
   }
   .bench-bar-wrap { flex: 1; background: var(--border); border-radius: 4px; height: 5px; }
   .bench-bar { height: 5px; border-radius: 4px; background: var(--accent); }
   .bench-label { font-size: 11px; color: var(--dim); white-space: nowrap; }
 
-  /* Reset button */
   .reset-btn {
     width: 100%;
     padding: 16px;
@@ -276,38 +229,38 @@
     transition: all 0.2s;
     margin-bottom: 12px;
   }
-  .reset-btn:active { background: var(--surface2); color: var(--text); }
 
-  /* Streak bar */
-  .streak-bar {
+  .streak-bar, .screen-card, .nav-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 16px;
     margin-bottom: 16px;
   }
-  .streak-header {
+  .streak-header, .screen-head, .nav-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 12px;
     margin-bottom: 12px;
   }
-  .streak-title {
+  .streak-title, .screen-title, .chart-title {
     font-size: 11px;
     font-family: 'Space Mono', monospace;
     color: var(--dim);
     letter-spacing: 1px;
     text-transform: uppercase;
   }
-  .streak-count {
+  .streak-count, .screen-badge {
     font-family: 'Space Mono', monospace;
-    font-size: 13px;
+    font-size: 10px;
     color: var(--accent);
+    background: var(--surface2);
+    padding: 4px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
   }
-  .week-dots {
-    display: flex;
-    gap: 8px;
-  }
+  .week-dots { display: flex; gap: 8px; }
   .dot {
     flex: 1;
     height: 28px;
@@ -325,53 +278,15 @@
   .dot.pass { background: #1a2a00; color: var(--green); }
   .dot.fail { background: #2a0000; color: var(--red); }
   .dot.today { outline: 1px solid var(--accent); }
-  .dot-day { font-size: 7px; }
+  .dot-day, .graph-day { font-size: 8px; }
 
-
-  /* Screen time */
-  .screen-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 16px;
-  }
-  .screen-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .screen-title {
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
-    color: var(--dim);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .screen-sub {
+  .screen-sub, .chart-sub {
     font-size: 12px;
-    margin-top: 6px;
     color: var(--text);
-  }
-  .screen-badge {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--accent);
-    background: var(--surface2);
-    padding: 4px 8px;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
-  .screen-input-row {
-    display: flex;
-    gap: 10px;
     margin-bottom: 14px;
   }
-  .screen-input-group {
-    flex: 1;
-  }
+  .screen-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .screen-input-group { flex: 1; }
   .screen-label {
     display: block;
     font-size: 10px;
@@ -392,29 +307,28 @@
     font-family: 'Space Mono', monospace;
     outline: none;
   }
-  .screen-input:focus {
-    border-color: var(--accent);
-  }
-  .screen-save {
+  .screen-input:focus { border-color: var(--accent); }
+  .screen-save, .nav-btn, .mini-btn {
     border: 1px solid var(--border);
     background: var(--surface2);
     color: var(--text);
     border-radius: 10px;
+    cursor: pointer;
+  }
+  .screen-save {
     padding: 0 16px;
     font-family: 'Space Mono', monospace;
     font-size: 11px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    cursor: pointer;
   }
-  .screen-save:active { background: var(--border); }
-  .screen-feedback {
-    min-height: 16px;
+  .screen-feedback, .compare-line, .history-note, .nav-sub {
     font-size: 11px;
     font-family: 'Space Mono', monospace;
-    margin-bottom: 14px;
     color: var(--dim);
+    line-height: 1.5;
   }
+
   .graph-wrap {
     height: 160px;
     background: linear-gradient(to top, rgba(255,255,255,0.02), transparent);
@@ -441,6 +355,7 @@
     font-family: 'Space Mono', monospace;
     color: var(--dim);
     min-height: 10px;
+    text-align: center;
   }
   .graph-bar-wrap {
     width: 100%;
@@ -457,110 +372,28 @@
   }
   .graph-bar.good { background: var(--green); }
   .graph-bar.bad { background: var(--red); }
-  .graph-day {
-    font-size: 8px;
-    font-family: 'Space Mono', monospace;
-    color: var(--dim);
-    text-transform: uppercase;
-  }
 
-
-  /* Day navigator */
-  .nav-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-  .nav-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: space-between;
-  }
-  .nav-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text);
-    font-size: 18px;
-    cursor: pointer;
-  }
-  .nav-btn:active { background: var(--border); }
-  .nav-center {
-    flex: 1;
-    text-align: center;
-  }
+  .nav-btn { width: 42px; height: 42px; font-size: 18px; }
+  .nav-center { flex: 1; text-align: center; }
   .nav-title {
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
   }
-  .nav-sub {
-    font-size: 10px;
-    font-family: 'Space Mono', monospace;
-    color: var(--dim);
-    margin-top: 4px;
-  }
-  .nav-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
+  .nav-actions { display: flex; gap: 8px; margin-top: 12px; }
   .mini-btn {
     flex: 1;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--dim);
-    border-radius: 10px;
     padding: 10px 12px;
     font-family: 'Space Mono', monospace;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    cursor: pointer;
-  }
-  .mini-btn:active { background: var(--surface2); color: var(--text); }
-
-  .compare-line {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
+    background: transparent;
     color: var(--dim);
-    line-height: 1.5;
   }
 
-  .history-note {
-    font-size: 10px;
-    font-family: 'Space Mono', monospace;
-    color: var(--dim);
-    margin-top: 8px;
-  }
-
-  /* Bottom charts */
-  .bottom-graphs {
-    margin-top: 18px;
-  }
-  .chart-title {
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
-    color: var(--dim);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .chart-sub {
-    font-size: 12px;
-    color: var(--text);
-    margin-bottom: 14px;
-  }
-
+  .bottom-graphs { margin-top: 18px; }
   .footer-note {
     text-align: center;
     font-family: 'Space Mono', monospace;
@@ -580,7 +413,6 @@
   <div class="date-display" id="timeDisplay"></div>
 </header>
 
-<!-- Score widget -->
 <div class="score-widget">
   <div class="ring-wrap">
     <svg viewBox="0 0 80 80">
@@ -594,39 +426,38 @@
   </div>
   <div class="score-text">
     <div class="score-verdict" id="scoreVerdict">Start checking off</div>
-    <div class="score-detail" id="scoreDetail">0 / 18 items ticked</div>
+    <div class="score-detail" id="scoreDetail">0 / 8 items ticked</div>
     <div class="score-ticks" id="scoreStatus"></div>
   </div>
 </div>
 
 <div class="screen-card">
-    <div class="screen-head">
-      <div>
-        <div class="screen-title">Screen Time History</div>
-        <div class="screen-sub">Save screen time for the selected day. Then compare it against reality.</div>
-      </div>
-      <div class="screen-badge" id="screenAvgBadge">7D avg: --</div>
+  <div class="screen-head">
+    <div>
+      <div class="screen-title">Screen Time History</div>
+      <div class="screen-sub">Save screen time for the selected day. Then compare it against reality.</div>
     </div>
-
-    <div class="screen-input-row">
-      <div class="screen-input-group">
-        <label class="screen-label" for="screenHours">Hours</label>
-        <input class="screen-input" id="screenHours" type="number" min="0" max="24" inputmode="numeric" placeholder="0">
-      </div>
-      <div class="screen-input-group">
-        <label class="screen-label" for="screenMinutes">Minutes</label>
-        <input class="screen-input" id="screenMinutes" type="number" min="0" max="59" inputmode="numeric" placeholder="00">
-      </div>
-      <button class="screen-save" id="screenSaveBtn">Save</button>
-    </div>
-
-    <div class="screen-feedback" id="screenFeedback">No entry saved for this day.</div>
-    <div class="chart-title">Screen time vs days</div>
-    <div class="chart-sub">Last 7 days ending on the day you are viewing.</div>
-    <div class="graph-wrap" id="screenGraph"></div>
+    <div class="screen-badge" id="screenAvgBadge">7D avg: --</div>
   </div>
 
-<!-- Streak -->
+  <div class="screen-input-row">
+    <div class="screen-input-group">
+      <label class="screen-label" for="screenHours">Hours</label>
+      <input class="screen-input" id="screenHours" type="number" min="0" max="24" inputmode="numeric" placeholder="0">
+    </div>
+    <div class="screen-input-group">
+      <label class="screen-label" for="screenMinutes">Minutes</label>
+      <input class="screen-input" id="screenMinutes" type="number" min="0" max="59" inputmode="numeric" placeholder="00">
+    </div>
+    <button class="screen-save" id="screenSaveBtn">Save</button>
+  </div>
+
+  <div class="screen-feedback" id="screenFeedback">No entry saved for this day.</div>
+  <div class="chart-title">Screen time vs days</div>
+  <div class="chart-sub">Last 7 days ending on the day you are viewing.</div>
+  <div class="graph-wrap" id="screenGraph"></div>
+</div>
+
 <div class="streak-bar">
   <div class="streak-header">
     <span class="streak-title">This Week</span>
@@ -635,8 +466,6 @@
   <div class="week-dots" id="weekDots"></div>
 </div>
 
-
-<!-- Day navigation -->
 <div class="nav-card">
   <div class="nav-top">
     <button class="nav-btn" id="prevDayBtn">‹</button>
@@ -653,45 +482,37 @@
   <div class="compare-line" id="compareSummary">Pick a day and stop pretending memory is accurate.</div>
 </div>
 
-<!-- Sections -->
 <div id="sections"></div>
 
-<!-- Rules -->
 <div class="rules-box">
   <h3>⚠ RULES — READ THIS TWICE</h3>
-  <div class="rule-line"><span class="rule-dot">🟡</span> Miss 1–2 ticks → fine, don't make it a habit</div>
-  <div class="rule-line"><span class="rule-dot">🔴</span> Miss 3+ ticks → you're losing control</div>
-  <div class="rule-line"><span class="rule-dot">⚫</span> Miss full day → reset next day, zero excuses</div>
   <div class="rule-line"><span class="rule-dot">🔴</span> If you don't track it, you will lie to yourself</div>
   <div class="rule-line"><span class="rule-dot">🔴</span> Phone near you = you will fail. Not might. Will.</div>
-  <div class="rule-line"><span class="rule-dot">🔴</span> "Feeling disciplined" is not a system. It quits.</div>
+  <div class="rule-line"><span class="rule-dot">🔴</span> Miss the basics for multiple days and your system is fake</div>
+  <div class="rule-line"><span class="rule-dot">🟡</span> One bad day is noise. Repeating it is a pattern</div>
 </div>
 
-<!-- Benchmarks -->
 <div class="bench-box">
   <h3>🎯 TARGET BENCHMARKS</h3>
   <div class="bench-row">
-    <span class="bench-week">WK 1</span>
-    <div class="bench-bar-wrap"><div class="bench-bar" style="width:20%"></div></div>
-    <span class="bench-label">awareness + 20% drop</span>
+    <span class="bench-week">BASE</span>
+    <div class="bench-bar-wrap"><div class="bench-bar" style="width:30%"></div></div>
+    <span class="bench-label">just track honestly</span>
   </div>
   <div class="bench-row">
-    <span class="bench-week">WK 2</span>
-    <div class="bench-bar-wrap"><div class="bench-bar" style="width:55%"></div></div>
-    <span class="bench-label">under 3 hrs/day</span>
+    <span class="bench-week">GOOD</span>
+    <div class="bench-bar-wrap"><div class="bench-bar" style="width:60%"></div></div>
+    <span class="bench-label">6/8 tasks + under 3h</span>
   </div>
   <div class="bench-row">
-    <span class="bench-week">WK 3+</span>
-    <div class="bench-bar-wrap"><div class="bench-bar" style="width:85%"></div></div>
-    <span class="bench-label">~1.5–2 hrs/day</span>
+    <span class="bench-week">LOCKED</span>
+    <div class="bench-bar-wrap"><div class="bench-bar" style="width:90%"></div></div>
+    <span class="bench-label">7–8/8 tasks + low screen time</span>
   </div>
 </div>
 
-
-
-
 <div class="bottom-graphs">
-<div class="screen-card">
+  <div class="screen-card">
     <div class="screen-head">
       <div>
         <div class="screen-title">Tasks Done History</div>
@@ -709,70 +530,22 @@
 
 <button class="reset-btn" id="resetBtn">↺ Reset Viewed Day Checklist</button>
 
-
 <div class="footer-note">Data saved locally · Resets at midnight</div>
-
 
 <script>
 const SECTIONS = [
   {
-    icon: "🌅",
-    title: "Morning",
-    subtitle: "First 30 min",
+    icon: "☀️",
+    title: "Core Daily Tasks",
     items: [
-      "Phone NOT touched after waking (30 min)",
-      "Drank water + washed face",
-      "Got sunlight / moved body (walk or stretch)"
-    ]
-  },
-  {
-    icon: "📚",
-    title: "Study Blocks",
-    subtitle: "Work time",
-    items: [
-      "Phone kept in another room / drawer",
-      "No 'just checking' — not even once",
-      "Completed at least 2 focused sessions (45–90 min each)"
-    ]
-  },
-  {
-    icon: "🍽️",
-    title: "Daily Life",
-    subtitle: "Discipline",
-    items: [
-      "No phone during meals",
-      "No random scrolling when bored",
-      "Used replacement habit (reading / pushups / thinking)"
-    ]
-  },
-  {
-    icon: "📱",
-    title: "Controlled Usage",
-    subtitle: "Limits",
-    items: [
-      "Social media ≤ 45 min total",
-      "No mindless app switching",
-      "Used blocker (Stay Focused / Digital Wellbeing)"
-    ]
-  },
-  {
-    icon: "🌙",
-    title: "Night",
-    subtitle: "Wind down",
-    items: [
-      "Phone stopped 45–60 min before sleep",
-      "Phone kept away from bed",
-      "Planned next day (basic tasks)"
-    ]
-  },
-  {
-    icon: "📊",
-    title: "Weekly Check",
-    subtitle: "Non-negotiable",
-    items: [
-      "Screen time reduced vs last week",
-      "At least 5/7 days followed system",
-      "No binge day (>4–5 hrs scrolling)"
+      "No phone before 30 min after waking",
+      "No phone after 30 min before sleep",
+      "Deep work (3 to 4 hrs)",
+      "Walk in morning",
+      "Water plants",
+      "Make to-do list",
+      "Read book",
+      "No phone while eating"
     ]
   }
 ];
@@ -783,79 +556,56 @@ const screenTimeKey = 'tracker_screen_time';
 let dayOffset = 0;
 let state = {};
 
-function pad(num) {
-  return String(num).padStart(2, '0');
-}
-function dateToKey(date) {
-  return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;
-}
-function keyToDate(key) {
-  const [y,m,d] = key.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
+function pad(num) { return String(num).padStart(2, '0'); }
+function dateToKey(date) { return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`; }
 function getViewedDate() {
   const d = new Date();
   d.setHours(12,0,0,0);
   d.setDate(d.getDate() + dayOffset);
   return d;
 }
-function getViewedDateKey() {
-  return dateToKey(getViewedDate());
-}
-function trackerKey(dateKey) {
-  return 'tracker_' + dateKey;
-}
+function getViewedDateKey() { return dateToKey(getViewedDate()); }
+function trackerKey(dateKey) { return 'tracker_' + dateKey; }
 function loadStateFor(dateKey) {
   try { return JSON.parse(localStorage.getItem(trackerKey(dateKey))) || {}; }
   catch { return {}; }
 }
-function saveStateFor(dateKey, data) {
-  localStorage.setItem(trackerKey(dateKey), JSON.stringify(data));
-}
+function saveStateFor(dateKey, data) { localStorage.setItem(trackerKey(dateKey), JSON.stringify(data)); }
 function loadWeek() {
   try { return JSON.parse(localStorage.getItem(weekKey)) || {}; }
   catch { return {}; }
 }
-function saveWeek(data) {
-  localStorage.setItem(weekKey, JSON.stringify(data));
-}
+function saveWeek(data) { localStorage.setItem(weekKey, JSON.stringify(data)); }
 function loadScreenTime() {
   try { return JSON.parse(localStorage.getItem(screenTimeKey)) || {}; }
   catch { return {}; }
 }
-function saveScreenTime(data) {
-  localStorage.setItem(screenTimeKey, JSON.stringify(data));
-}
+function saveScreenTime(data) { localStorage.setItem(screenTimeKey, JSON.stringify(data)); }
 function minutesToLabel(totalMinutes) {
   if (totalMinutes == null || Number.isNaN(totalMinutes)) return '--';
   const hrs = Math.floor(totalMinutes / 60);
   const mins = totalMinutes % 60;
   return `${hrs}h ${pad(mins)}m`;
 }
-function countChecked(dayState = state) {
-  return Object.values(dayState).filter(Boolean).length;
-}
+function countChecked(dayState = state) { return Object.values(dayState).filter(Boolean).length; }
 function getColor(pct) {
-  if (pct >= 80) return 'var(--green)';
+  if (pct >= 87) return 'var(--green)';
   if (pct >= 50) return 'var(--orange)';
   return 'var(--red)';
 }
 function getVerdict(pct) {
-  if (pct === 0) return "Haven't started. Clock's ticking.";
-  if (pct < 30) return "Barely moving. Be real with yourself.";
-  if (pct < 50) return "Half-assing it. Not enough.";
-  if (pct < 80) return "Getting there. Don't stop now.";
-  if (pct < 100) return "Almost. Finish what you started.";
-  return "Locked in. Don't break the streak.";
+  if (pct === 0) return "No discipline logged. That's the truth.";
+  if (pct < 38) return "Weak day. Too much leakage.";
+  if (pct < 75) return "Decent, but still loose.";
+  if (pct < 100) return "Strong day. Clean it up fully.";
+  return "Locked in. Repeat it.";
 }
 function getDayLabel(date) {
   const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
 }
-function syncViewedState() {
-  state = loadStateFor(getViewedDateKey());
-}
+function syncViewedState() { state = loadStateFor(getViewedDateKey()); }
 function saveViewedDaySnapshot() {
   const checked = countChecked();
   const pct = Math.round((checked / TOTAL_ITEMS) * 100);
@@ -929,11 +679,11 @@ function updateScore() {
 
   const missed = TOTAL_ITEMS - checked;
   let status = '';
-  if (pct >= 80) status = '✓ On track';
-  else if (missed >= 3) status = `⚠ ${missed} missed — losing control territory`;
-  else status = `${missed} missed — still recoverable`;
+  if (pct >= 87) status = '✓ Strong day';
+  else if (missed >= 4) status = `⚠ ${missed} missed — sloppy`;
+  else status = `${missed} missed — recoverable`;
   document.getElementById('scoreStatus').textContent = status;
-  document.getElementById('scoreStatus').style.color = missed >= 3 ? 'var(--red)' : 'var(--dim)';
+  document.getElementById('scoreStatus').style.color = missed >= 4 ? 'var(--red)' : 'var(--dim)';
 
   saveViewedDaySnapshot();
   updateWeekDots();
@@ -962,9 +712,9 @@ function updateWeekDots() {
     let cls = 'dot';
     let label = '·';
     if (!isFuture && data) {
-      cls += data.pct >= 80 ? ' pass' : ' fail';
-      label = data.pct >= 80 ? '✓' : '✗';
-      if (data.pct >= 80) streak++;
+      cls += data.pct >= 75 ? ' pass' : ' fail';
+      label = data.pct >= 75 ? '✓' : '✗';
+      if (data.pct >= 75) streak++;
     }
     if (isToday) cls += ' today';
     const dayLabel = ['Mo','Tu','We','Th','Fr','Sa','Su'][i];
@@ -1081,7 +831,6 @@ function updateScreenGraph() {
   const graphEl = document.getElementById('screenGraph');
   const range = get7DayRangeEndingViewed();
   const points = range.map(d => ({
-    key: dateToKey(d),
     label: ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],
     minutes: typeof data[dateToKey(d)] === 'number' ? data[dateToKey(d)] : null
   }));
@@ -1118,7 +867,6 @@ function updateTaskGraph() {
     const key = dateToKey(d);
     const snap = weekData[key];
     return {
-      key,
       label: ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()],
       checked: snap && typeof snap.checked === 'number' ? snap.checked : null
     };
@@ -1132,13 +880,12 @@ function updateTaskGraph() {
   const prevDate = new Date(getViewedDate());
   prevDate.setDate(prevDate.getDate() - 1);
   const prevState = loadStateFor(dateToKey(prevDate));
-  const prevChecked = countChecked(prevState);
 
   if (!values.length) {
     feedbackEl.textContent = 'No task history yet.';
     feedbackEl.style.color = 'var(--dim)';
   } else {
-    const diff = viewedChecked - prevChecked;
+    const diff = viewedChecked - countChecked(prevState);
     if (Object.keys(prevState).length) {
       feedbackEl.textContent = diff > 0
         ? `Viewed day beat previous day by ${diff} task(s).`
@@ -1188,16 +935,14 @@ function refreshViewedDay() {
   updateTaskGraph();
 }
 function saveViewedScreenTime() {
-  const hoursEl = document.getElementById('screenHours');
-  const minsEl = document.getElementById('screenMinutes');
-  const hours = Math.max(0, parseInt(hoursEl.value || '0', 10) || 0);
-  const mins = Math.max(0, parseInt(minsEl.value || '0', 10) || 0);
+  const hours = Math.max(0, parseInt(document.getElementById('screenHours').value || '0', 10) || 0);
+  const mins = Math.max(0, parseInt(document.getElementById('screenMinutes').value || '0', 10) || 0);
   const normalizedMins = Math.min(59, mins);
   const totalMinutes = (hours * 60) + normalizedMins;
   const data = loadScreenTime();
   data[getViewedDateKey()] = totalMinutes;
   saveScreenTime(data);
-  minsEl.value = normalizedMins;
+  document.getElementById('screenMinutes').value = normalizedMins;
   updateScreenTimeUI();
   updateCompareSummary();
 }
@@ -1207,31 +952,16 @@ document.getElementById('screenMinutes').addEventListener('change', () => {
   if (val > 59) document.getElementById('screenMinutes').value = 59;
   if (val < 0) document.getElementById('screenMinutes').value = 0;
 });
-document.getElementById('screenHours').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveViewedScreenTime();
-});
-document.getElementById('screenMinutes').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveViewedScreenTime();
-});
-document.getElementById('prevDayBtn').addEventListener('click', () => {
-  dayOffset -= 1;
-  refreshViewedDay();
-});
+document.getElementById('screenHours').addEventListener('keydown', e => { if (e.key === 'Enter') saveViewedScreenTime(); });
+document.getElementById('screenMinutes').addEventListener('keydown', e => { if (e.key === 'Enter') saveViewedScreenTime(); });
+document.getElementById('prevDayBtn').addEventListener('click', () => { dayOffset -= 1; refreshViewedDay(); });
 document.getElementById('nextDayBtn').addEventListener('click', () => {
-  if (dayOffset < 0) {
-    dayOffset += 1;
-    refreshViewedDay();
-  }
+  if (dayOffset < 0) { dayOffset += 1; refreshViewedDay(); }
 });
-document.getElementById('jumpTodayBtn').addEventListener('click', () => {
-  dayOffset = 0;
-  refreshViewedDay();
-});
-document.getElementById('copyPrevBtn').addEventListener('click', () => {
-  updateCompareSummary();
-});
+document.getElementById('jumpTodayBtn').addEventListener('click', () => { dayOffset = 0; refreshViewedDay(); });
+document.getElementById('copyPrevBtn').addEventListener('click', updateCompareSummary);
 document.getElementById('resetBtn').addEventListener('click', () => {
-  const label = getViewedDateKey() === dateToKey(new Date()) ? "today's" : `the viewed day's`;
+  const label = getViewedDateKey() === dateToKey(new Date()) ? "today's" : "the viewed day's";
   if (confirm(`Reset ${label} checklist? This clears all ticks for that day.`)) {
     state = {};
     saveStateFor(getViewedDateKey(), state);
@@ -1243,6 +973,5 @@ updateDateTime();
 setInterval(updateDateTime, 30000);
 refreshViewedDay();
 </script>
-
 </body>
 </html>
